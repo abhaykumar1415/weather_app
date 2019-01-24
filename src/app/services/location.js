@@ -16,7 +16,7 @@ const Cities = Object.freeze([
     }
   },
   {
-    name: "Bihar, India",
+    name: "Bihar",
     id:3,
     location: {
       lat: 25.0961,
