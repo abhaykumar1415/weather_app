@@ -10,6 +10,7 @@ import {
   Environment
 } from '@ionic-native/google-maps';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import Cities from '../services/location';
 declare var google: any;
 @Component({
   selector: 'app-home',
@@ -18,14 +19,14 @@ declare var google: any;
 })
 export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
-  map: any;
   mapOptions: any;
   location = {lat: null, lng: null};
-  markerOptions: any = {position: null, map: null, title: null};
-  marker: any;
+	infoWindows: any;
   apiKey: any = 'AIzaSyCCh36EiMSjGZzqyBjNqi2FaaYpowZ-P7E';
   constructor(public zone: NgZone, public geolocation: Geolocation) {
-    const script = document.createElement('script');
+      console.log("Cities ", Cities);
+		const script = document.createElement('script');
+		this.infoWindows = [];
       script.id = 'googleMap';
       if (this.apiKey) {
           script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
@@ -37,19 +38,50 @@ export class HomePage {
           this.location.lat = position.coords.latitude;
           this.location.lng = position.coords.longitude;
       });
-      /*Map options*/
       this.mapOptions = {
-          center: this.location,
-          zoom: 3,
+          center: {
+            lat: 21.1458,
+            lng: 79.0882
+          },
+          zoom: 4,
           mapTypeControl: false
       };
       setTimeout(() => {
-          this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
-          this.markerOptions.position = this.location;
-          this.markerOptions.map = this.map;
-          this.markerOptions.title = 'My Location';
-          this.marker = new google.maps.Marker(this.markerOptions);
-          this.marker.setMap(this.map);
+          console.log("this.mapElement.nativeElement :", this.mapElement.nativeElement);
+          var map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
+          console.log("dta L", Cities);
+          Cities.map(city => {
+            var markerOptions: any = {};
+            var marker;
+            markerOptions.position = city.location;
+            markerOptions.map = map;
+            markerOptions.title = city.name;
+            marker = new google.maps.Marker(markerOptions);
+            marker.setMap(map);
+            var content = '<p id='+city.id+'>' + city.name + '</p>';
+            var infowindow = new google.maps.InfoWindow({
+                content: content
+						});
+            marker.addListener('click',() => {
+								this.closeAllInfoWindows();
+								infowindow.open(map,marker);
+								console.log("City.id :", city.id);
+								console.log("document.getElementById(city.id) :", document.getElementById(city.id));
+								setTimeout(() => {
+									if(document.getElementById(city.id)) {
+										document.getElementById(city.id).addEventListener('click',() => {
+											console.log("info windor clicked for :", city.id);
+										});
+									}
+								},100);
+						});
+						this.infoWindows.push(infowindow)
+          })
       }, 3000);
-  }
+	}
+	closeAllInfoWindows() {
+		for(let window of this.infoWindows) {
+			window.close();
+		}
+	}
 }
