@@ -24,8 +24,6 @@ export class HomePage {
   markerOptions: any = {position: null, map: null, title: null};
   marker: any;
   apiKey: any = 'AIzaSyCCh36EiMSjGZzqyBjNqi2FaaYpowZ-P7E';
-  ionViewDidLoad() {
-  }
   constructor(public zone: NgZone, public geolocation: Geolocation) {
     const script = document.createElement('script');
       script.id = 'googleMap';
@@ -51,6 +49,7 @@ export class HomePage {
           this.markerOptions.map = this.map;
           this.markerOptions.title = 'My Location';
           this.marker = new google.maps.Marker(this.markerOptions);
+          this.marker.setMap(this.map);
       }, 3000);
   }
 }
