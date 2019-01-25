@@ -26,7 +26,7 @@
                 Max Temperature
             </ion-label>
             <div class="data">
-                {{activeFilter == 'F' ? weatherData.maxtemp_f : weatherData.maxtemp_c}}
+                {{activeFilter == 'F' ? weatherData.maxtemp_f + " F" : weatherData.maxtemp_c + " C" }}
             </div>
           </ion-item>
         </ion-card>
@@ -36,7 +36,7 @@
             <ion-item>
               <ion-label>Min temperature</ion-label>
               <div class="data">
-                  {{activeFilter == 'F' ? weatherData.mintemp_f : weatherData.mintemp_c}}
+                  {{activeFilter == 'F' ? weatherData.mintemp_f + " F" : weatherData.mintemp_c + " C"}}
               </div>
             </ion-item>
           </ion-card>
@@ -46,7 +46,7 @@
             <ion-item>
               <ion-label>Avg temperature</ion-label>
               <div class="data">
-                  {{activeFilter == 'F' ? weatherData.avgtemp_f : weatherData.avgtemp_c}}
+                  {{activeFilter == 'F' ? weatherData.avgtemp_f + " F": weatherData.avgtemp_c + " C"}}
               </div>
             </ion-item>
           </ion-card>
