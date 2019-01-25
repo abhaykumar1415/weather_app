@@ -30,7 +30,6 @@ export class HomePage {
 	activeFilter: String = 'F';
   apiKey: any = 'AIzaSyCCh36EiMSjGZzqyBjNqi2FaaYpowZ-P7E';
   constructor(public zone: NgZone, public geolocation: Geolocation, public api : ApiService) {
-      console.log("Cities ", Cities);
 		const script = document.createElement('script');
 		this.infoWindows = [];
       script.id = 'googleMap';
@@ -53,9 +52,7 @@ export class HomePage {
           mapTypeControl: false
       };
       setTimeout(() => {
-          console.log("this.mapElement.nativeElement :", this.mapElement.nativeElement);
           var map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
-          console.log("dta L", Cities);
           Cities.map(city => {
             var markerOptions: any = {};
             var marker;
@@ -68,26 +65,20 @@ export class HomePage {
             var infowindow = new google.maps.InfoWindow({
                 content: content
 						});
-						console.log("this.cityTemperature  1 :", this.cityTemperature );
             marker.addListener('click',() => {
 								this.closeAllInfoWindows();
 								this.resizeMap(100);
 								this.api.getWeather(city.name).then(data => {
-									console.log("DATA in home component :", data);
 									let res: any = data;
 									this.weatherData = res.forecast.forecastday[0].day;
 									this.cityTemperature = res.current.temp_c;
 									document.getElementById(city.id).innerText = "";
 									document.getElementById(city.id).innerText = city.name + " :  " +this.cityTemperature + ' C';
-									console.log("this.cityTemperature  2 :", this.cityTemperature );
 							})
 								infowindow.open(map,marker);
-								console.log("City.id :", city.id);
-								console.log("document.getElementById(city.id) :", document.getElementById(city.id));
 								setTimeout(() => {
 									if(document.getElementById(city.id)) {
 										document.getElementById(city.id).addEventListener('click',() => {
-											console.log("info windor clicked for :", city.id);
 											this.resizeMap(50);
 										});
 									}
