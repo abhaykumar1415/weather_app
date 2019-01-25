@@ -28,20 +28,5 @@ I have used ````https://www.apixu.com```` for weather API.
 
 ![Login](https://i.imgur.com/cHEcU20.png)
 ![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
-
-![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
-
-
-![Facebook Pop-UP](https://drive.google.com/open?id=1-HSTa1X6lJfCvGi4PgoIgUsaVGPEigbp)
-
-
-<!-- ![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
-
-![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
-
-![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
-
-![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png) -->
-
-
 ![Markers on the Map](https://i.imgur.com/N9fF9SA.png)
+![Temperature](https://i.imgur.com/LD4TJQf.png)
