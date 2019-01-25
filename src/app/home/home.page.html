@@ -7,5 +7,54 @@
 </ion-header>
 
 <ion-content padding>
-  <div id="map" #map></div>
+  <div id="map" class="fullView"  #map></div>
+  <div *ngIf="showList">
+    <div class="temp-wrapper">
+      <div>
+          <!-- <div> -->
+              <ion-button fill="outline" slot="end" (click)="changeFilter('C')" >C</ion-button>
+          <!-- </div>
+          <div> -->
+              <ion-button fill="outline" slot="end" (click)="changeFilter('F')">F</ion-button>
+          <!-- </div> -->
+      </div>
+      <div class="cancelIcon" (click)="resizeMap(100)">
+        X
+      </div>
+    </div>
+    <div>
+      <div>
+        <ion-card>
+          <ion-item>
+            <ion-label>
+                Max Temperature
+            </ion-label>
+            <div class="data">
+                {{activeFilter == 'F' ? weatherData.maxtemp_f : weatherData.maxtemp_c}}
+            </div>
+          </ion-item>
+        </ion-card>
+      </div>
+      <div>
+        <ion-card>
+            <ion-item>
+              <ion-label>Min temperature</ion-label>
+              <div class="data">
+                  {{activeFilter == 'F' ? weatherData.mintemp_f : weatherData.mintemp_c}}
+              </div>
+            </ion-item>
+          </ion-card>
+      </div>
+      <div>
+        <ion-card>
+            <ion-item>
+              <ion-label>Avg temperature</ion-label>
+              <div class="data">
+                  {{activeFilter == 'F' ? weatherData.avgtemp_f : weatherData.avgtemp_c}}
+              </div>
+            </ion-item>
+          </ion-card>
+      </div>
+    </div>
+  </div>
 </ion-content>

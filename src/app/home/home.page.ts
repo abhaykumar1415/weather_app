@@ -20,11 +20,14 @@ declare var google: any;
 })
 export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
-  mapOptions: any;
+	mapOptions: any;
+	showList: Boolean = false;
+	weatherData: any = {} ;
   location = {lat: null, lng: null};
 	infoWindows: any;
 	cityTemperature: any = '';
 	cityForecast: any;
+	activeFilter: String = 'F';
   apiKey: any = 'AIzaSyCCh36EiMSjGZzqyBjNqi2FaaYpowZ-P7E';
   constructor(public zone: NgZone, public geolocation: Geolocation, public api : ApiService) {
       console.log("Cities ", Cities);
@@ -68,12 +71,14 @@ export class HomePage {
 						console.log("this.cityTemperature  1 :", this.cityTemperature );
             marker.addListener('click',() => {
 								this.closeAllInfoWindows();
+								this.resizeMap(100);
 								this.api.getWeather(city.name).then(data => {
 									console.log("DATA in home component :", data);
 									let res: any = data;
+									this.weatherData = res.forecast.forecastday[0].day;
 									this.cityTemperature = res.current.temp_c;
 									document.getElementById(city.id).innerText = "";
-									document.getElementById(city.id).innerText = city.name + " " +this.cityTemperature + 'C';
+									document.getElementById(city.id).innerText = city.name + " :  " +this.cityTemperature + ' C';
 									console.log("this.cityTemperature  2 :", this.cityTemperature );
 							})
 								infowindow.open(map,marker);
@@ -83,6 +88,7 @@ export class HomePage {
 									if(document.getElementById(city.id)) {
 										document.getElementById(city.id).addEventListener('click',() => {
 											console.log("info windor clicked for :", city.id);
+											this.resizeMap(50);
 										});
 									}
 								},100);
@@ -98,5 +104,18 @@ export class HomePage {
 	}
 	returnTemp() {
 		return this.cityTemperature;
+	}
+	resizeMap(screenSize) {
+		var mapView = document.getElementById('map');
+		if(screenSize == 100) {
+			mapView.className = "fullView";
+			this.showList = false;
+		} else {
+			mapView.className = "halfView";
+			this.showList = true;
+		}
+	}
+	changeFilter(filter) {
+		this.activeFilter = filter;
 	}
 }
