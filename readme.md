@@ -24,3 +24,6 @@ I have used ````https://www.apixu.com```` for weather API.
 - [x] The user should be able to close the list by tapping a close forecast list button.
 - [x] If the user were to click on other city pin on map the open forecast list should be closed.
 - [x] The user should be able to pinch/zoom the map.
+
+
+![Login Screen](blob:https://imgur.com/4b329fcc-eade-400b-a22c-e00ae6905e7c)
