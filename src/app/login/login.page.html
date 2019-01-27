@@ -1,9 +1,32 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar slot="start">
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-    <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" onlogin="window.checkLoginState()"></div>
+  <div *ngIf="!(authService.user | async)" class="form-wrapper">
+    <div>
+      <div>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+      </div>
+      <div>
+        <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+  <div>
+      <div>
+          <ion-button expand="block" (click)="login()" [disabled]="!email || !password">Login</ion-button>
+      </div>
+      <div>
+          <ion-button expand="full" (click)="signup()" [disabled]="!email || !password">Sign up</ion-button>
+      </div>
+  </div>
+</div>
 </ion-content>

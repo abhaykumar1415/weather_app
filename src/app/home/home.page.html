@@ -3,6 +3,9 @@
     <ion-title>
       Weather App
     </ion-title>
+    <ion-buttons slot="end" (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +14,8 @@
   <div *ngIf="showList">
     <div class="temp-wrapper">
       <div>
-              <ion-button fill="outline" slot="end" (click)="changeFilter('C')" >C</ion-button>
-              <ion-button fill="outline" slot="end" (click)="changeFilter('F')">F</ion-button>
+              <ion-button fill="outline" slot="end" (click)="changeFilter('C')" [ngClass]="{'active': activeFilter == 'C'}" >C</ion-button>
+              <ion-button fill="outline" slot="end" (click)="changeFilter('F')" [ngClass]="{'active': activeFilter == 'F'}">F</ion-button>
       </div>
       <div class="cancelIcon" (click)="resizeMap(100)">
         X

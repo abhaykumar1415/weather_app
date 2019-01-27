@@ -16,15 +16,19 @@
 }
 
 .data{
-	width: 50px;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	height: 28px;
-	border: 2px solid black;
-	border-radius: 5px;
+	width: 65px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 28px;
+    border: 2px solid #217fff;
+    border-radius: 5px;
 }
 .cancelIcon {
 	width: 25px;
 	height: 20px;
+}
+.active {
+    background-color: blue;
+    color: white;
 }

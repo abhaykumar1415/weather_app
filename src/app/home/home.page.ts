@@ -1,24 +1,18 @@
-import { Component, ViewChild, NgZone, ElementRef} from '@angular/core';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker,
-  Environment
-} from '@ionic-native/google-maps';
+import { Component, OnInit, ViewChild, NgZone, ElementRef} from '@angular/core';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import Cities from '../services/location';
 import {ApiService} from '../services/api.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { LoadingService } from '../services/loading';
 declare var google: any;
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
 	mapOptions: any;
 	showList: Boolean = false;
@@ -27,9 +21,9 @@ export class HomePage {
 	infoWindows: any;
 	cityTemperature: any = '';
 	cityForecast: any;
-	activeFilter: String = 'F';
+	activeFilter: String = 'C';
   apiKey: any = 'AIzaSyCCh36EiMSjGZzqyBjNqi2FaaYpowZ-P7E';
-  constructor(public zone: NgZone, public geolocation: Geolocation, public api : ApiService) {
+  constructor(public zone: NgZone, public geolocation: Geolocation, public api : ApiService, public authService: AuthService, public toastController: ToastController, private router: Router, public loading: LoadingService) {
 		const script = document.createElement('script');
 		this.infoWindows = [];
       script.id = 'googleMap';
@@ -66,15 +60,7 @@ export class HomePage {
                 content: content
 						});
             marker.addListener('click',() => {
-								this.closeAllInfoWindows();
-								this.resizeMap(100);
-								this.api.getWeather(city.name).then(data => {
-									let res: any = data;
-									this.weatherData = res.forecast.forecastday[0].day;
-									this.cityTemperature = res.current.temp_c;
-									document.getElementById(city.id).innerText = "";
-									document.getElementById(city.id).innerText = city.name + " :  " +this.cityTemperature + ' C';
-							})
+								this.getWeather(city);
 								infowindow.open(map,marker);
 								setTimeout(() => {
 									if(document.getElementById(city.id)) {
@@ -85,13 +71,38 @@ export class HomePage {
 								},100);
 						});
 						this.infoWindows.push(infowindow)
-          })
+					})
+					this.loading.dismiss();
       }, 3000);
 	}
+	ngOnInit(): void {
+		this.loading.present();
+		this.authService.user
+    .subscribe(res => {
+      if(!res) {
+				this.loading.dismiss();
+        this.router.navigate(['/login']);
+      }
+    });
+	}
+	
 	closeAllInfoWindows() {
 		for(let window of this.infoWindows) {
 			window.close();
 		}
+	}
+	getWeather(city) {
+		this.loading.present();
+				this.closeAllInfoWindows();
+				this.resizeMap(100);
+				this.api.getWeather(city.name).then(data => {
+					let res: any = data;
+					this.weatherData = res.forecast.forecastday[0].day;
+					this.cityTemperature = res.current.temp_c;
+					document.getElementById(city.id).innerText = "";
+					document.getElementById(city.id).innerText = city.name + " :  " +this.cityTemperature + ' C';
+					this.loading.dismiss();
+			})
 	}
 	returnTemp() {
 		return this.cityTemperature;
@@ -109,4 +120,20 @@ export class HomePage {
 	changeFilter(filter) {
 		this.activeFilter = filter;
 	}
+	logout() {
+		this.loading.present();
+    this.authService.logout().then(data => {
+			this.loading.dismiss();
+			this.showToast('Logged out');
+			this.router.navigate(['/login']);
+		})
+	}
+	async showToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+    });
+    toast.present();
+  }
 }
