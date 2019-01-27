@@ -26,7 +26,6 @@ I have used ````https://www.apixu.com```` for weather API.
 - [x] The user should be able to pinch/zoom the map.
 
 
-![Login](https://i.imgur.com/cHEcU20.png)
-![Facebook Pop-UP](https://i.imgur.com/8M79CNO.png)
+![Login](https://i.imgur.com/zUeNcoU.png)
 ![Markers on the Map](https://i.imgur.com/N9fF9SA.png)
 ![Temperature](https://i.imgur.com/LD4TJQf.png)
